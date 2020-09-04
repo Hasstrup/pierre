@@ -1,0 +1,14 @@
+{
+    "watch": [
+      ".env",
+      "src",
+      "package.json",
+      "tsconfig.json"
+    ],
+    "ext": "ts",
+    "ignore": [
+      "src/public"
+    ],
+    "exec": "npm run dev:start"
+  }
+  
