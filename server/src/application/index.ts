@@ -42,7 +42,6 @@ export class Application {
   }
 
   public Serve = () => {
-    console.log(this.app.routes)
     this.app.listen(this.port, () => {
       this.logger.info(
         `The API is now listening on ${this.hostname}:${this.port}`
