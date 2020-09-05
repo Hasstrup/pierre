@@ -14,12 +14,22 @@ export interface Model {
 }
 
 export interface ModelWrapper {
-  schema: any;
-  Find: () => Result[];
-  FindOne: () => Result;
-  Query: () => Result;
-  Insert: () => Result;
-  Search: () => Result;
+  _schema: any;
+  Find: (q: QueryObject) => Result[];
+  FindOne: (q: QueryObject) => Result;
+  Query?: () => Result;
+  Insert: (r: Record) => Result;
+  Update: (r: Record) => Result;
+  Delete: (r: Record) => Result;
+//   Search: () => Result;
+}
+
+export interface QueryObject {
+
+}
+
+export interface Record {
+
 }
 
 export interface Result {}
@@ -34,7 +44,10 @@ export interface ModelRelationship {
 
 export interface DaoField {
   name: string;
+  type: string;
   index: boolean;
+  default?: any;
+  of?: string;
   primaryKey?: boolean;
 }
 export interface MongoDriverConfig {
