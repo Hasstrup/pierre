@@ -1,7 +1,32 @@
-import express from 'express';
+import express, { Handler } from 'express';
+import cors from 'cors';
+import dotenv from 'dotenv';
+import { bundleMiddlewares } from '@/shared/wrappers';
+import createLogger from '@/shared/logger';
+import { Application } from '@/application';
+import * as routers from '@/api/routers'
 
-const app = express();
+// TODO{H.Ezekiel} - there's a better way to do this - peek docs
+dotenv.config();
 
-app.listen(8080, () => {
-  console.log("Server listening on 8080")
+const config = {
+  ...process.env
+}
+
+const logger = createLogger(config)
+
+const handlers: Handler[] = [
+  express.urlencoded({ extended: true }),
+  express.json(),
+  cors(),
+]
+
+const app = new Application({
+  app: express(),
+  config,
+  logger,
+  middlewares: bundleMiddlewares(handlers),
+  routers: Object.values(routers)
 })
+
+app.SetUp().Serve()
