@@ -37,6 +37,7 @@ export interface Result {}
 export interface ModelRelationship {
   field: string;
   type: "one-to-one" | "one-to-many" | "many-to-one";
+  refClass: Model;
   index: boolean;
   unique?: boolean;
   foreignKey?: boolean;

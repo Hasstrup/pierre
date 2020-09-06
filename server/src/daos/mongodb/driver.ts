@@ -4,6 +4,7 @@ import {
   MongoDriverConfig,
   Model,
   ModelWrapper,
+  ModelRelationship,
 } from "@/daos/shared/types";
 import { MongoWrapper } from "@/daos/mongodb/wrapper";
 
@@ -44,6 +45,30 @@ export class MongoDriver implements DatabaseDriver {
         default: field.default,
       };
     });
+    relationships.forEach((relationship) => {
+      schema[relationship.field] = this._determineRelationship(relationship);
+    });
     return new Schema(schema);
+  };
+
+  private _determineRelationship = (relationship: ModelRelationship) => {
+    switch (relationship.type) {
+      case "one-to-one":
+        return {
+          [relationship.field]: {
+            type: Schema.Types.ObjectId,
+            ref: relationship.refClass.Name,
+          },
+        };
+      case "one-to-many":
+        return {
+          [relationship.field]: [
+            {
+              type: Schema.Types.ObjectId,
+              ref: relationship.refClass.Name,
+            },
+          ],
+        };
+    }
   };
 }
